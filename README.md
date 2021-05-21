@@ -35,8 +35,27 @@ Creating ReadMe's for your Github repository can be tedious.  I hope this templa
 ---
 
 ## Getting Started
+
 ### Prerequisites
+- Python (v3.x.x)
+
 ### Installation
+- Clone the repository using following command.
+```
+$ git clone https://github.com/Abirami-mygithub/InjectTFParallel.git
+```
+- Create a virtual environment inside the cloned repository folder (InjectTFParallel).
+```
+$ python3 -m venv .venv
+```
+- Activate the created virtual environment.
+```
+$ source .venv/bin/activate
+```
+- Install the dependencies from requirements.txt
+```
+$ pip install -r requirements.txt --no-cache-dir
+```
 ### How to use
 
 
@@ -98,15 +117,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-[Back To The Top](#read-me-template)
-
 ---
 
 ## Author Info
 
 - [Abirami Ravi](https://www.linkedin.com/in/abiramiravi/)
 
----
 
 ## Acknowledgements
 
@@ -114,6 +130,10 @@ SOFTWARE.
 
 - [Sheng Ding](sheng.ding@ias.uni-stuttgart.de)
 
-- [Saiteja Malyala](linkedin.com/in/msaiteja)
+- Special thanks to [Saiteja Malyala](linkedin.com/in/msaiteja)
+
+- [Keract](https://github.com/philipperemy/keract/blob/master/README.md)
 
 [Back To The Top](#read-me-template)
+
+---
