@@ -1,3 +1,12 @@
+"""
+Filename:           mnist_dataset.py 
+File Description:   mnist dataset is acquired from tensorflow datasets and split into training and test dataset. 
+                    There are getter functions to retrieve training and test dataset.
+Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
+References:         https://en.wikipedia.org/wiki/MNIST_database
+                    https://www.tensorflow.org/api_docs/python/tf/keras/datasets/mnist
+"""
+
 import tensorflow as tf
 from tensorflow.keras import utils
 
@@ -6,14 +15,14 @@ class MNIST_Dataset:
         Dataset = tf.data.Dataset
         mnist = tf.keras.datasets.mnist
 
-        nb_classes = 10
+        nb_classes_mnist = 10
 
         # Prepare data set
         (self.x_train, self.y_train), (self.x_test, self.y_test) = mnist.load_data()
         self.x_train, self.x_test = self.x_train / 255.0, self.x_test / 255.0
 
-        self.y_train = utils.to_categorical(self.y_train, nb_classes)
-        self.y_test = utils.to_categorical(self.y_test, nb_classes)
+        self.y_train = utils.to_categorical(self.y_train, nb_classes_mnist)
+        self.y_test = utils.to_categorical(self.y_test, nb_classes_mnist)
 
         # Add a channels dimension
         self.x_train = self.x_train[..., tf.newaxis].astype("float32")

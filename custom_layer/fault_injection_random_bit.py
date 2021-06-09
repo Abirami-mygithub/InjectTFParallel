@@ -3,6 +3,8 @@ Filename:           fault_injection_random_bit.py
 File Description:   A custom layer called Fault_Injector_Random_Bit is created. This custom layer takes input from the previous layer that it is connected to and 
                     injects fault into random bits. The percentage of fault injection is controlled by a parameter called as probability. 
 Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
+References:         https://keras.io/examples/keras_recipes/antirectifier/
+                    https://www.tensorflow.org/tutorials/customization/custom_layers
 """
 
 
@@ -23,7 +25,7 @@ class Fault_Injector_Random_Bit(tf.keras.layers.Layer):
         else:
             input_datatype = tf.float64
             max_limit = 64
-            
+
         #copy the inputs to this layer and also its shape
         temp = inputs
         input_shape = tf.shape(inputs, out_type=tf.int64)

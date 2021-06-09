@@ -4,6 +4,8 @@ File Description:   A custom layer called Fault_Injector_Specific_Bit is created
                     injects fault into specific bit numbers. The bit number is mentioned as a parameter while creating custom layer.
                     Additionally, the percentage of fault injection is controlled by a parameter called as probability. 
 Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
+References:         https://keras.io/examples/keras_recipes/antirectifier/
+                    https://www.tensorflow.org/tutorials/customization/custom_layers
 """
 
 import tensorflow as tf
