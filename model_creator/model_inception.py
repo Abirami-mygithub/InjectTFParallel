@@ -2,7 +2,7 @@
 Filename:           model_inception.py
 File Description:   An example of non-sequential deep learning model is Inception v1. A simple DNN model with inception module is created.
                     The model can be retrieved using get_model(). One must specify the input shape and number of output class labels for
-                    the model creation. 
+                    the model creation.
 Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
 References:         Szegedy, Christian, et al. "Going deeper with convolutions."
                     Proceedings of the IEEE conference on computer vision and pattern recognition. 2015.
@@ -16,9 +16,8 @@ from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import concatenate
 
 class Model_Inception:
-    def __init__(self):
-
     # function for creating an inception module
+
     def __inception_module(self, layer_in, f1, f2_in, f2_out, f3_in, f3_out, f4_out):
         # 1x1 conv
         conv1 = Conv2D(f1, (1,1), padding='same', activation='relu', name = 'conv2d_1')(layer_in)

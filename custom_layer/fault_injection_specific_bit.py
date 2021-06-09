@@ -1,8 +1,8 @@
 """
-Filename:           fault_injection_specific_bit.py 
-File Description:   A custom layer called Fault_Injector_Specific_Bit is created. This custom layer takes input from the previous layer that it is connected to and 
+Filename:           fault_injection_specific_bit.py
+File Description:   A custom layer called Fault_Injector_Specific_Bit is created. This custom layer takes input from the previous layer that it is connected to and
                     injects fault into specific bit numbers. The bit number is mentioned as a parameter while creating custom layer.
-                    Additionally, the percentage of fault injection is controlled by a parameter called as probability. 
+                    Additionally, the percentage of fault injection is controlled by a parameter called as probability.
 Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
 References:         https://keras.io/examples/keras_recipes/antirectifier/
                     https://www.tensorflow.org/tutorials/customization/custom_layers
@@ -19,7 +19,7 @@ class Fault_Injector_Specific_Bit(tf.keras.layers.Layer):
 
     def call(self, inputs):
 
-      if (inputs.dtype == tf.float32):
+        if (inputs.dtype == tf.float32):
             input_datatype = tf.float32
         else:
             input_datatype = tf.float64
@@ -29,7 +29,7 @@ class Fault_Injector_Specific_Bit(tf.keras.layers.Layer):
         input_shape = tf.shape(inputs, out_type=tf.int64)
 
         #Usually the layer input datatype will be float32 or float64. These float values are scaled before converting to integers.
-        temp = tf.reshape(temp, [-1]) * self.scale 
+        temp = tf.reshape(temp, [-1]) * self.scale
 
 
         #Store the shape of the reshaped and scaled.

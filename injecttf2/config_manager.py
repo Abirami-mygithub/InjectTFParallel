@@ -9,7 +9,7 @@ import logging
 import yaml
 
 class ConfigurationManager:
-    def __init__(self, path_to_config_file="/home/abirami_ravi/Custom_Layer_Fault_Injection_Software/config/config_fault_type_specific_bit.yml"):
+    def __init__(self, path_to_config_file="/home/abirami_ravi/Custom_Layer_Fault_Injection_Software/InjectTFParallel/config/config_fault_injection_inception_model.yml"):
         """InjectTF2 configuration class.
 
         This class handles reading and parsing the yaml configuration file.

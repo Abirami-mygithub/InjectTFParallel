@@ -1,3 +1,38 @@
+"""
+Filename:           constants.py
+File Description:   The constants.py consists of path variables, enums which can be modified based on the user.
+                    Also contains constants whose value does not change
+Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
+"""
+
+from enum import Enum
+
+class Available_Models(Enum):
+    INCEPTION_MODEL = 1
+    RESNET50_MODEL = 2
+
+print(Available_Models.INCEPTION_MODEL.value)
+
+CONFIGURATION_PATH = "/home/abirami_ravi/Custom_Layer_Fault_Injection_Software/InjectTFParallel/config/config_fault_injection_inception_model.yml"
+
+SPECIFIC_BIT_FAULT_INJECTOR = 'Fault_Injector_Specific_Bit'
+RANDOM_BIT_FAULT_INJECTOR = 'Fault_Injector_Random_Bit'
+
+# key words for config file
+LAYER_NAME_STR = "layer_name"
+PROBABILITY_STR = "probability"
+FAULT_TYPE_STR = "fault_type"
+BIT_FLIP_TYPE_STR = "bit_flip_type"
+BIT_NUMBER_STR = "bit_number"
+
+# values for `fault_type` key
+BIT_FLIP_STR = "BitFlip"
+
+# values for `bit_flip_type` key
+RANDOM_BIT_STR = "RandomBit"
+SPECIFIC_BIT_STR = "SpecificBit"
+
+
 GTSRB_LABELS = { 0:'Speed limit (20km/h)',
                 1:'Speed limit (30km/h)',
                 2:'Speed limit (50km/h)',
@@ -45,3 +80,4 @@ GTSRB_LABELS = { 0:'Speed limit (20km/h)',
 GTSRB_IMG_HEIGHT = 32
 GTSRB_IMG_WIDTH = 32
 GTSRB_channels = 3
+

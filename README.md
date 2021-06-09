@@ -80,7 +80,13 @@ $ pip install -r requirements.txt --no-cache-dir
 [Back To The Top](#InjectTFParallel)
 
 ---
+## Possible Issues and Solutions
 
+1. Error while loading the weights from .h5 file <br />
+Downgrade h5py to < 3.0.0 by following command:
+```
+$ pip install 'h5py<3.0.0'
+```
 ## References
 <div style="text-align: justify">
 <a id="1">[1]</a>  He, Kaiming, et al. "Deep residual learning for image recognition." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016. <br />

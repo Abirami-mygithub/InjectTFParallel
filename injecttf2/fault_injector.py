@@ -1,110 +1,160 @@
+"""
+Filename:           fault_injector.py
+File Description:
+Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
+References:         https://www.tensorflow.org/api_docs/python/tf/keras/models/model_from_yaml
+                    https://www.educative.io/edpresso/keras-load-save-model
+"""
 
 import yaml
-import tensorflow as tf
-from tensorflow.keras.utils import plot_model
-
-
 import sys
-# Add trained_models to python path.
-root_path = "/home/abirami_ravi/Custom_Layer_Fault_Injection_Software/"
+import random
+import copy
+import tensorflow as tf
+from tensorflow.keras.losses import CategoricalCrossentropy
+
+
+# Add root folder to python path.
+root_path = "/home/abirami_ravi/Custom_Layer_Fault_Injection_Software/InjectTFParallel/"
 
 if root_path not in sys.path:
     sys.path.append(root_path)
-from models.inception_model import Inception_Model
+
+
+from model_trainer.trainer_inception import Trainer_Inception
 from custom_layer.fault_injection_random_bit import Fault_Injector_Random_Bit
 from custom_layer.fault_injection_specific_bit import Fault_Injector_Specific_Bit
+import constants as cts
+import config_manager
 from evaluation.evaluate import Evaluation
 
 class Fault_Injector:
+
     def __init__(self):
-        self.im = Inception_Model()
+        self.cm = config_manager.ConfigurationManager(path_to_config_file=cts.CONFIGURATION_PATH)
 
-    def inject_fault(self, model, config_data, weights):
-        #convert the model into yaml format
-        for data in config_data:
-            temp_model = model
-            model_config = self.__get_model_in_yaml(temp_model)
+    def inject_fault(self):
+        print("Fault injection is available for following models:")
+        print("1. User defined model with inception module trained on mnist dataset")
+        print("2. ResNet50 trained on GTSRB")
+        chosen_option = input("Kindly choose one of the above for fault injection:")
+        chosen_option = int(chosen_option)
+        if(chosen_option == cts.Available_Models.INCEPTION_MODEL.value):
+            self.__fault_injector_selected_model(chosen_option)
+        elif(chosen_option == cts.Available_Models.RESNET50_MODEL.value):
+            self.__fault_injector_selected_model(chosen_option)
+        else:
+            print("Selected option does not exist")
 
-            #create custom layer dictionary to insert in model yaml file
-            custom_layer, selected_layer = self.__custom_layer_dictionary(data)
+    def __fault_injector_selected_model(self, selected_model):
+        if(selected_model == cts.Available_Models.INCEPTION_MODEL.value):
+            ti_obj = Trainer_Inception()
+            model, self.weights = ti_obj.get_model_and_weights()
+            self.model_dict = self.__convert_model_to_yaml(model)
+            #print("model architecture:", model_dict)
+            #print("type:", type(model_dict))
+            self.__process_config_data()
+        elif(selected_model == cts.Available_Models.RESNET50_MODEL.value):
+            print("resnet")
+        else:
+            print("else")
 
-            custom_layer_type = custom_layer['class_name']
-            #flag to check if the layer is already inserted
-            is_layer_inserted = False
+    def __convert_model_to_yaml(self, model):
+        print("******......Model architecture conversion to yaml......******")
+        model_in_yaml_format = model.to_yaml()
+        model_in_python_format = yaml.load(model_in_yaml_format)
 
-            layers_info = model_config['config']['layers']
-            for index, layer in enumerate(layers_info):
-                if(layer['name'] == selected_layer):
-                    if(is_layer_inserted == False):
-                        layers_info.insert(1, custom_layer)
-                        is_layer_inserted = True
-                if(custom_layer_type == 'Fault_Injector_Specific_Bit'):
-                    if(layer['class_name']!= 'InputLayer' and layer['class_name']!= 'Fault_Injector_Specific_Bit' ):
-                        for nodes in layer['inbound_nodes'][0]:
-                            if(nodes[0] == selected_layer):
-                                nodes[0] = 'fault__injector__specific__bit'
-                elif(custom_layer_type == 'Fault_Injector_Random_Bit'):
-                    if(layer['class_name']!= 'InputLayer' and layer['class_name']!= 'Fault_Injector_Random_Bit' ):
-                        for nodes in layer['inbound_nodes'][0]:
-                            if(nodes[0] == selected_layer):
-                                nodes[0] = 'fault__injector__random__bit'
-                else:
-                    print("Fault_type is invalid")
-            mod = self.__construct_model_from_yaml(model_config, custom_layer_type)
-            model_with_weights = self.__set_weights(mod, weights)
+        return model_in_python_format
 
-            loss_fn = tf.keras.losses.CategoricalCrossentropy(from_logits=True)
-            model_with_weights.compile(optimizer='adam', loss=loss_fn, metrics=['accuracy'])
+    def __process_config_data(self):
+        config_data = self.cm.get_data()
+        print("******......Fetching fault injection configuration data......******")
+        print(config_data)
+        for count, elements in enumerate(config_data):
+            new_instance = self.__create_new_fault_injector_instance()
+            self.__custom_layer_creator(count, elements)
 
-            self.__evaluate_fault_injected_model(model_with_weights, custom_layer_type)
+    def __custom_layer_creator(self, index_position, individual_fault_spec):
 
-    def __evaluate_fault_injected_model(self, model_, fault_type_name):
-        ev = Evaluation(model_, fault_type_name)
-        ev.plot_confusion_matrix()
-        ev.evaluate_model()
+        print("******......Custom layer creation......******")
 
-    def __set_weights(self, fault_model, weights_from_original_model):
-        slices = fault_model.layers
+        if((individual_fault_spec[cts.FAULT_TYPE_STR] == cts.BIT_FLIP_STR) and
+           (individual_fault_spec[cts.BIT_FLIP_TYPE_STR]== cts.SPECIFIC_BIT_STR)):
+            custom_layer= {'class_name': cts.SPECIFIC_BIT_FAULT_INJECTOR,
+                            'config': {'probability': individual_fault_spec[cts.PROBABILITY_STR],
+                                       'bit_number': individual_fault_spec[cts.BIT_NUMBER_STR]},
+                            'inbound_nodes': [[[str(individual_fault_spec[cts.LAYER_NAME_STR]), 0, 0, {}]]],
+                            'name': 'fault__injector__specific__bit'+ str(index_position+1)}
+
+
+        elif((individual_fault_spec[cts.FAULT_TYPE_STR] == cts.BIT_FLIP_STR) and
+           (individual_fault_spec[cts.BIT_FLIP_TYPE_STR]== cts.RANDOM_BIT_STR)):
+            custom_layer = {'class_name': cts.RANDOM_BIT_FAULT_INJECTOR,
+                            'config': {'probability': individual_fault_spec[cts.PROBABILITY_STR]},
+                            'inbound_nodes': [[[str(individual_fault_spec[cts.LAYER_NAME_STR]), 0, 0, {}]]],
+                            'name': 'fault__injector__random__bit'+ str(index_position+1)}
+
+        print(custom_layer)
+        fault_type = individual_fault_spec[cts.BIT_FLIP_TYPE_STR]
+        self.__custom_layer_insertion(custom_layer, individual_fault_spec[cts.LAYER_NAME_STR], fault_type)
+
+    def __custom_layer_insertion(self, custom_layer, selected_layer, fault_type):
+
+        print("******......New model creation with custom layer......******")
+
+        new_model = copy.deepcopy(self.model_dict)
+        layers_info = new_model['config']['layers']
+        is_layer_inserted = False
+
+        custom_layer_type = custom_layer['class_name']
+        for index, layer in enumerate(layers_info):
+            if(layer['name'] == selected_layer):
+                if(is_layer_inserted == False):
+                    layers_info.insert(1, custom_layer)
+                    is_layer_inserted = True
+                    print("layer inserted")
+            if(layer['class_name']!= 'InputLayer' and ((layer['class_name']!= (cts.SPECIFIC_BIT_FAULT_INJECTOR))or (layer['class_name']!=(cts.RANDOM_BIT_FAULT_INJECTOR)))):
+                for nodes in layer['inbound_nodes'][0]:
+                    if(nodes[0] == selected_layer):
+                        nodes[0] = custom_layer['name']
+
+        self.__construct_model_from_dic(new_model, selected_layer, custom_layer_type)
+
+    def __construct_model_from_dic(self, fault_model, layer, custom_layer_type):
+        config_model = yaml.dump(fault_model)
+
+        if(custom_layer_type == cts.SPECIFIC_BIT_FAULT_INJECTOR):
+            fault_injected_model = tf.keras.models.model_from_yaml(config_model, custom_objects={custom_layer_type: Fault_Injector_Specific_Bit})
+        else:
+            fault_injected_model = tf.keras.models.model_from_yaml(config_model, custom_objects={custom_layer_type: Fault_Injector_Random_Bit})
+
+        fault_injected_model.summary()
+
+        self.__assign_weights_to_customized_model(fault_injected_model)
+
+    def __assign_weights_to_customized_model(self, fault_injected_model):
+
+        print("******......Assigning weights to fault injected model......******")
+        slices = fault_injected_model.layers
         for item in slices:
             #print(item.name)
             if "fault__injector__" not in item.name:
-                item.set_weights(weights_from_original_model[item.name])
-        return fault_model
+                item.set_weights(self.weights[item.name])
 
+        self.__compile_fault_model(fault_injected_model)
 
-    def __construct_model_from_yaml(self, model, layer_type):
-        config = yaml.dump(model)
-        #print("modified yaml content:", config)
-        print("layer type:", layer_type)
-        if(layer_type == 'Fault_Injector_Specific_Bit'):
-            mod = tf.keras.models.model_from_yaml(config, custom_objects={layer_type: Fault_Injector_Specific_Bit})
-        else:
-            mod = tf.keras.models.model_from_yaml(config, custom_objects={layer_type: Fault_Injector_Random_Bit})
-        #plot_model(mod, show_shapes=True, to_file= 'Fault_Model.png')
-        mod.summary()
-        return mod
+    def __compile_fault_model(self, fault_injected_model):
 
+        print("******......Compilation begins......******")
+        loss_fn = CategoricalCrossentropy(from_logits=True)
+        fault_injected_model.compile(optimizer='adam', loss=loss_fn, metrics=['accuracy'])
+        self.__evaluate_fault_injected_model(fault_injected_model)
 
-    def __get_model_in_yaml(self, model):
-        yaml_model = model.to_yaml()
-        #print("Before:", yaml_model)
-        return (yaml.load(yaml_model))
+    def __evaluate_fault_injected_model(self, fault_injected_model):
 
-    def __custom_layer_dictionary(self, config_data):
-        fault_type = config_data['bit_flip_type']
-        layer_name = config_data['layer_name']
-        probability = config_data['probability']
-        layer_name = config_data['layer_name']
-        if(fault_type == "SpecificBit"):
-            custom_layer_dict = {'class_name': 'Fault_Injector_Specific_Bit',
-                            'config': {'probability': probability, 'specific_bit': config_data['bit_number']},
-                            'inbound_nodes': [[[str(layer_name), 0, 0, {}]]],
-                            'name': 'fault__injector__specific__bit'}
-        elif (fault_type == "RandomBit"):
-            custom_layer_dict = {'class_name': 'Fault_Injector_Random_Bit',
-                            'config': {'probability': probability},
-                            'inbound_nodes': [[[str(layer_name), 0, 0, {}]]],
-                            'name': 'fault__injector__random__bit'}
-        else:
-            print("Fault type is invalid")
-        return custom_layer_dict, layer_name
+        print("******......Evaluation begins......******")
+        ev = Evaluation()
+        ev.evaluate_model(fault_injected_model)
+
+    def __create_new_fault_injector_instance(self):
+        return Fault_Injector

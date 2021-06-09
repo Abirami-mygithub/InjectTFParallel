@@ -13,16 +13,15 @@ if root_path not in sys.path:
 from datasets.mnist_dataset import MNIST_Dataset
 
 class Evaluation:
-    def __init__(self, model, name):
+    def __init__(self):
         ds = MNIST_Dataset()
-        self.model = model
         self.x_test, self.y_test = ds.get_test_ds()
-        self.name = name
 
-    def plot_model_architecture(self):
-        plot_model(self.model, show_shapes=True, to_file=self.name)
 
-    def plot_confusion_matrix(self):
+    #def plot_model_architecture(self):
+        #plot_model(self.model, show_shapes=True, to_file=self.name)
+
+    '''def plot_confusion_matrix(self):
         predicted_output = self.model.predict(self.x_test)
 
         #convert the hot-coded output from the model's prediction to labels
@@ -39,9 +38,9 @@ class Evaluation:
         cm = confusion_matrix(y_out, y_pred, normalize='true', labels=label)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm,display_labels=label)
         fig, ax = plt.subplots(figsize=(10, 10))
-        disp.plot(ax=ax)
+        disp.plot(ax=ax)'''
 
-    def evaluate_model(self):
-        self.model.evaluate(self.x_test, self.y_test)
+    def evaluate_model(self, model):
+        model.evaluate(self.x_test[:100], self.y_test[:100])
 
 
