@@ -1,6 +1,9 @@
 """
 Filename:           fault_injector.py
-File Description:
+File Description:   This file is responsible for fetching the model architecture based on user's choice, reading fault specification
+                    from configuration file, creating appropriate custom layer based on fault type, modifying the original model
+                    with custom layer inserted for fault injection, thereby creating a new fault injected model
+                    and evaluating the fault injected model.
 Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
 References:         https://www.tensorflow.org/api_docs/python/tf/keras/models/model_from_yaml
                     https://www.educative.io/edpresso/keras-load-save-model
@@ -51,13 +54,7 @@ class Fault_Injector:
             ti_obj = Trainer_Inception()
             model, self.weights = ti_obj.get_model_and_weights()
             self.model_dict = self.__convert_model_to_yaml(model)
-            #print("model architecture:", model_dict)
-            #print("type:", type(model_dict))
             self.__process_config_data()
-        elif(selected_model == cts.Available_Models.RESNET50_MODEL.value):
-            print("resnet")
-        else:
-            print("else")
 
     def __convert_model_to_yaml(self, model):
         print("******......Model architecture conversion to yaml......******")
@@ -69,7 +66,6 @@ class Fault_Injector:
     def __process_config_data(self):
         config_data = self.cm.get_data()
         print("******......Fetching fault injection configuration data......******")
-        print(config_data)
         for count, elements in enumerate(config_data):
             new_instance = self.__create_new_fault_injector_instance()
             self.__custom_layer_creator(count, elements)
