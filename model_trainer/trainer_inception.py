@@ -4,8 +4,7 @@ File Description:   The Trainer_Inception class fetches the dataset, inception m
                     Also the trained model weights are saved in .h5 format. The only accessible function from this class is get_weights_dic() 
                     through which model's weights can be obtained in dictionary format with layers and corresponding weights.
 Created by:         Abirami Ravi - University of Stuttgart (abirami1429@gmail.com)
-References:         https://keras.io/examples/keras_recipes/antirectifier/
-                    https://www.tensorflow.org/tutorials/customization/custom_layers
+References:         https://www.tensorflow.org/guide/keras/save_and_serialize
 """
 
 import sys
