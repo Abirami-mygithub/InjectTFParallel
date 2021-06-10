@@ -25,7 +25,7 @@ For example: [[ResNet50]](#1), [[InceptionV3]](#2), [[MobileNetV2]](#3)
 
 Creating ReadMe's for your Github repository can be tedious.  I hope this template can save you time and effort as well as provide you with some consistency across your projects.
 
-#### Architecture
+#### Software Architecture
 
 ![Software Architecture](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/architecture.png)
 
@@ -131,11 +131,11 @@ SOFTWARE.
 
 ## Acknowledgements
 
-- [Herr Jun.-Prof. Dr.-Ing. Andrey Morozov](andrey.morozov@ias.uni-stuttgart.de)
+- [Herr Jun.-Prof. Dr.-Ing. Andrey Morozov](https://www.ias.uni-stuttgart.de/institut/team/Morozov/)
 
-- [Sheng Ding](sheng.ding@ias.uni-stuttgart.de)
+- [Sheng Ding](https://www.ias.uni-stuttgart.de/en/institute/team/Ding/)
 
-- Special thanks to [Saiteja Malyala](linkedin.com/in/msaiteja)
+- Special thanks to [Saiteja Malyala](https://github.com/saitejamalyala)
 
 - [Keract](https://github.com/philipperemy/keract/blob/master/README.md)
 
