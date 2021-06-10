@@ -23,15 +23,7 @@ For example: [[ResNet50]](#1), [[InceptionV3]](#2), [[MobileNetV2]](#3)
 
 ## Description
 
-Creating ReadMe's for your Github repository can be tedious.  I hope this template can save you time and effort as well as provide you with some consistency across your projects.
 
-#### Software Architecture
-
-![Software Architecture](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/architecture.png)
-
-#### Sequence Diagram
-
-![Sequence Diagram](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/sequence%20diagram.png)
 
 [Back To The Top](#InjectTFParallel)
 
@@ -51,7 +43,7 @@ $ git clone https://github.com/Abirami-mygithub/InjectTFParallel.git
 ```
 $ python3 -m venv .venv
 ```
-- Activate the created virtual environment.
+- Activate the created virtual environment
 ```
 $ source .venv/bin/activate
 ```
@@ -59,26 +51,54 @@ $ source .venv/bin/activate
 ```
 $ pip install -r requirements.txt --no-cache-dir
 ```
+---
 ### How to use
 
-
-
-#### API Reference
-
-```html
-    <p>dummy code</p>
+1. Import fault injector component
 ```
-[Back To The Top](#read-me-template)
-
----
-
-## Results
-
-[Back To The Top](#InjectTFParallel)
+ from injecttf.fault_injector import Fault_Injector
+```
+2. Instantiate fault injector component
+```
+ fi_obj = Fault_Injector()
+```
+3. Call inject_fault() from fault injector component using the instantiated object.
+```
+ fi_obj.inject_fault()
+```
+[example.py](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/injecttf/example.py) is created to show the usage of InjectTFParallel fault injector.
 
 ---
 
 ## Implementation Details
+InjectTFParallel software architecture mainly comprises of configuration manager, model trainer, fault injector, model creator, datasets, custom layer, evaluation and visualization components. Each of these components have individual responsibility and interact with each other to provide the fault injection functionality. 
+- **Configuration Manager:** It is responsible for reading from the [config file](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/config/Fault_injection_config_file.yml) containing fault injection specification and provide the fault injection configuration on request. It provides the config data in python dictionary.
+
+- **[Model Creator:](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/model_creator/model_inception.py)** It provides the model architecture based on the user's request .
+
+- **Dataset:** It provides preprocessed mnist and gtsrb dataset 
+
+- **[Model Trainer:](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/model_trainer/trainer_inception.py)** It fetches the model from model creator and dataset, trains the model if not saved weights are available. It provides model and the weights .
+
+- **Custom Layer:** Fault injection is done through creating custom layers. Two different custom layers namely [Fault_Injector_Random_Bit](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/custom_layer/fault_injection_random_bit.py) and [Fault_Injector_Specific_Bit](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/custom_layer/fault_injection_specific_bit.py) is created. Each has its own functionality.
+
+- **[Fault Injector:](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/injecttf/fault_injector.py)** It is responsible for creating a duplicate copy of the model for which fault is to be injected and based on the fault injection specification from config file, inserts appropriate fault injection custom layer into the duplicate copy of the model. Thereby a new fault model is created with fault injection custom layer. This fault model is compiled and evaluated.
+
+
+#### Software Architecture
+
+![Software Architecture](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/architecture.png)
+
+
+
+#### Sequence Diagram
+
+![Sequence Diagram](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/sequence%20diagram.png)
+
+[Back To The Top](#InjectTFParallel)
+
+---
+## Results
 
 [Back To The Top](#InjectTFParallel)
 
@@ -90,6 +110,7 @@ Downgrade h5py to < 3.0.0 by following command:
 ```
 $ pip install 'h5py<3.0.0'
 ```
+---
 ## References
 <div style="text-align: justify">
 <a id="1">[1]</a>  He, Kaiming, et al. "Deep residual learning for image recognition." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016. <br />
