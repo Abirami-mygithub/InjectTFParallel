@@ -18,11 +18,11 @@ class Evaluation:
         self.x_test, self.y_test = ds.get_test_ds()
 
 
-    #def plot_model_architecture(self):
-        #plot_model(self.model, show_shapes=True, to_file=self.name)
+    def plot_model_architecture(self):
+        plot_model(self.model, show_shapes=True)
 
-    '''def plot_confusion_matrix(self):
-        predicted_output = self.model.predict(self.x_test)
+    def plot_confusion_matrix(self, model):
+        predicted_output = model.predict(self.x_test)
 
         #convert the hot-coded output from the model's prediction to labels
         y_pred = []
@@ -38,9 +38,10 @@ class Evaluation:
         cm = confusion_matrix(y_out, y_pred, normalize='true', labels=label)
         disp = ConfusionMatrixDisplay(confusion_matrix=cm,display_labels=label)
         fig, ax = plt.subplots(figsize=(10, 10))
-        disp.plot(ax=ax)'''
+        disp.plot(ax=ax)
 
     def evaluate_model(self, model):
         model.evaluate(self.x_test[:100], self.y_test[:100])
+        self.plot_confusion_matrix(model)
 
 
