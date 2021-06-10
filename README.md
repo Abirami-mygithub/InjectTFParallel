@@ -153,6 +153,7 @@ InjectTFParallel software architecture mainly comprises of configuration manager
 	    </tr>
 	  </tbody>
 	</table>
+	
 [Back To The Top](#InjectTFParallel)
 
 ---
