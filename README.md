@@ -29,6 +29,10 @@ Creating ReadMe's for your Github repository can be tedious.  I hope this templa
 
 ![Software Architecture](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/architecture.png)
 
+#### Sequence Diagram
+
+![Sequence Diagram](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/sequence%20diagram.png)
+
 [Back To The Top](#InjectTFParallel)
 
 ---
