@@ -25,10 +25,9 @@ For example: [[ResNet50]](#1), [[InceptionV3]](#2), [[MobileNetV2]](#3)
 
 Creating ReadMe's for your Github repository can be tedious.  I hope this template can save you time and effort as well as provide you with some consistency across your projects.
 
-#### Technologies
+#### Architecture
 
-- Technology 1
-- Technology 2
+![Software Architecture](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/architecture.png)
 
 [Back To The Top](#InjectTFParallel)
 
