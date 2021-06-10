@@ -110,8 +110,49 @@ InjectTFParallel software architecture mainly comprises of configuration manager
 ![Accuracy](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/accuracy.png)
 ![loss](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/loss.png)
 ![bit number constant](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/bitnumber52.png)
-#### Fault Type - Random bit
 
+#### Fault Type - Random bit
+ <table border = '2' class="Random bit fault">	
+	  <thead>	  
+	    <tr style="text-align: right;">
+	      <th>Probability</th>
+	      <th>Accuracy</th>
+	      <th>Loss</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <td>100%</td>
+	      <td>0.1009</td>
+	      <td>2.3602</td>
+	    </tr>
+	   <tr>
+	      <td>90%</td>
+	      <td>0.2026</td>
+	      <td>2.2574</td>
+	    </tr>
+	    <tr>
+	      <td>80%</td>
+	      <td>0.0958</td>
+	      <td>2.3653</td>
+	    </tr>	  
+	    <tr>
+	      <td>70%</td>
+	      <td>0.9598</td>
+	      <td>1.5011</td>
+	    </tr>
+        <tr>
+	      <td>50%</td>
+	      <td>0.9235</td>
+	      <td>1.5678</td>
+	    </tr>
+        <tr>
+	      <td>40%</td>
+	      <td>0.9630</td>
+	      <td>1.4982</td>
+	    </tr>
+	  </tbody>
+	</table>
 [Back To The Top](#InjectTFParallel)
 
 ---
