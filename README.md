@@ -102,12 +102,14 @@ InjectTFParallel software architecture mainly comprises of configuration manager
 ---
 ## Results
 #### Model architecture without fault
-![Model architecture without fault]()
+![Model architecture without fault](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/model_without_fault.png)
 #### Model architecture with fault
-![Model architecture with fault]()
+![Model architecture with fault](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/model_with_fault.png)
 
 #### Fault Type - Specific bit
-
+![Accuracy](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/accuracy.png)
+![loss](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/loss.png)
+![bit number constant](https://github.com/Abirami-mygithub/InjectTFParallel/blob/main/Project_Images/bitnumber52.png)
 #### Fault Type - Random bit
 
 [Back To The Top](#InjectTFParallel)
