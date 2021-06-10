@@ -11,7 +11,7 @@ class Available_Models(Enum):
     INCEPTION_MODEL = 1
     RESNET50_MODEL = 2
 
-CONFIGURATION_PATH = "/home/abirami_ravi/Custom_Layer_Fault_Injection_Software/InjectTFParallel/config/config_fault_injection_inception_model.yml"
+CONFIGURATION_PATH = "/home/abirami_ravi/Custom_Layer_Fault_Injection_Software/InjectTFParallel/config/Fault_injection_config_file.yml"
 
 SPECIFIC_BIT_FAULT_INJECTOR = 'Fault_Injector_Specific_Bit'
 RANDOM_BIT_FAULT_INJECTOR = 'Fault_Injector_Random_Bit'
