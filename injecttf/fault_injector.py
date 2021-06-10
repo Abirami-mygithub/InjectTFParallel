@@ -39,7 +39,7 @@ class Fault_Injector:
     def inject_fault(self):
         print("Fault injection is available for following models:")
         print("1. User defined model with inception module trained on mnist dataset")
-        print("2. ResNet50 trained on GTSRB")
+        print("2. ResNet50 model")
         chosen_option = input("Kindly choose one of the above for fault injection:")
         chosen_option = int(chosen_option)
         if(chosen_option == cts.Available_Models.INCEPTION_MODEL.value):

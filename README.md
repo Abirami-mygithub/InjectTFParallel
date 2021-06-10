@@ -22,8 +22,10 @@ For example: [[ResNet50]](#1), [[InceptionV3]](#2), [[MobileNetV2]](#3)
 ---
 
 ## Description
+InjectTFParallel software provides us fault injection functionality to test the resilience of deep learning models against hardware faults. [InjectTF2](https://github.com/mbsa-tud/InjectTF2) is a fault injection software for sequential models. InjectTFParallel mainly focuses on injecting fault into non-sequential models (i.e) model containing layers with more than one input or one output.
+In InjectTFParallel, fault injection into a model is done by creating a duplicate copy of the model and inserting fault injection custom layers. Two types of faults namely random bit fault and specific bit fault can be injected using InjectTFParallel. Each of these faults have unique custom layer implementation. Based on the chosen fault type, appropriate custom layer is inserted into duplicate copy of the model(also called as fault model). Fault model is then evaluated on the test dataset.
 
-
+Keract library is used to visualize intermediate layer outputs in order to understand the behaviour of the model on fault injection.
 
 [Back To The Top](#InjectTFParallel)
 
@@ -99,6 +101,14 @@ InjectTFParallel software architecture mainly comprises of configuration manager
 
 ---
 ## Results
+#### Model architecture without fault
+![Model architecture without fault]()
+#### Model architecture with fault
+![Model architecture with fault]()
+
+#### Fault Type - Specific bit
+
+#### Fault Type - Random bit
 
 [Back To The Top](#InjectTFParallel)
 
